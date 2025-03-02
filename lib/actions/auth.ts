@@ -51,9 +51,6 @@ export const signUp = async(params: AuthCredentials) => {
             role
         })
 
-        console.log("Triggering workflow at:", `${config.env.prodApiEndpoint}/api/workflows/onboarding`);
-        console.log("Payload Sent to Workflow:", { email, fullName });
-
         try {
           console.log("Triggering Upstash Workflow...");
           const response = await workflowClient.trigger({
