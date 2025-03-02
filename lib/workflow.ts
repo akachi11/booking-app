@@ -12,7 +12,8 @@ export const workflowClient = new WorkflowClient({
 //     token: config.env.upstash.qstashToken
 // })
 
-export const sendEmail = async (email: string, subject: string, body: string, name: string) => {
+export const sendEmail = async (email: string, body: string, name: string) => {
+    console.log("sending")
     emailjs.send("service_2qm6sy5", "template_klaxvff", {
             to_email: email,
             message: body,
