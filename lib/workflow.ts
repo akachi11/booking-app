@@ -13,7 +13,7 @@ export const workflowClient = new WorkflowClient({
 
 export const sendEmailFunc = async (email: string, body: string, name: string) => {
     try {
-      const response = await fetch("/api/send-email", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
