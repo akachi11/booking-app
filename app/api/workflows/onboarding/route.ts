@@ -6,10 +6,7 @@ type InitialData = {
 }
 
 export const { POST } = serve<InitialData>(async (context) => {
-  console.log("Received request payload:", context.requestPayload);
   const { email, name } = context.requestPayload;
-
-  console.log("Sending email with:", { email, name });
 
   await context.run("new-signup", async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_PROD_API_ENDPOINT ?? "http://localhost:3000"}/api/register-workflow`, {
