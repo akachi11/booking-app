@@ -12,18 +12,25 @@ export const workflowClient = new WorkflowClient({
 // })
 
 export const sendEmailFunc = async (email: string, body: string, name: string) => {
-    const response = await fetch(`${config.env.prodApiEndpoint}/api/send-email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, message: body, name }),
-    });
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, body, name }),
+      });
   
-    if (!response.ok) {
-      console.error("Upstash Workflow -> EmailJS Error:", await response.text());
-      throw new Error("Failed to send email");
+      if (!response.ok) {
+        throw new Error("Failed to send email");
+      }
+  
+      console.log("✅ SUCCESS! Email sent.");
+    } catch (error) {
+      console.error("❌ Error sending email:", error);
+      throw new Error("Email sending failed");
     }
-  
-    console.log("SUCCESS! Email triggered.");
   };
+  
   
   
