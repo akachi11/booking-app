@@ -1,0 +1,1 @@
+ALTER TABLE "todo" ADD COLUMN "password" text NOT NULL;
