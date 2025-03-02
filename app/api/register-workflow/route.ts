@@ -3,11 +3,14 @@ import emailjs from "@emailjs/browser";
 
 export async function POST(req: NextRequest) {
     try {
-        const { email, body, name } = await req.json();
+        const body = await req.json();
+        console.log("Received request body:", body);
+
+        const { email, body: message, name } = body;
 
         // Validate inputs
-        if (!email || !body || !name) {
-            return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+        if (!email || !message || !name) {
+            return NextResponse.json({ message: "Missing required fields", receivedBody: body }, { status: 400 });
         }
 
         const serviceId = "service_2qm6sy5";
@@ -17,13 +20,13 @@ export async function POST(req: NextRequest) {
         await emailjs.send(
             serviceId,
             templateId,
-            { to_email: email, message: body, to_name: name },
+            { to_email: email, message: message, to_name: name },
             { publicKey }
         );
 
         return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
     } catch (error) {
         console.error("Email sending failed:", error);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error", error: error.message }, { status: 500 });
     }
 }
