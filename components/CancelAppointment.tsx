@@ -5,13 +5,17 @@ import { Button } from "@/components/ui/button";
 import { cancelBooking } from "@/lib/actions/booking";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { sendEmail } from '@/lib/workflow';
+import { UserProps } from './ManageBookings';
+import config from '@/lib/config';
 
 interface CancelAppointmentProps {
     bookingId: string;
     userId: string;
+    user: UserProps
 }
 
-const CancelAppointment: React.FC<CancelAppointmentProps> = ({ bookingId, userId }) => {
+const CancelAppointment: React.FC<CancelAppointmentProps> = ({ bookingId, userId, user }) => {
 
     const [cancelled, setCancelled] = useState<boolean>(false);
 
@@ -21,6 +25,7 @@ const CancelAppointment: React.FC<CancelAppointmentProps> = ({ bookingId, userId
             const result = await cancelBooking(bookingId, userId);
             if (result.success) {
                 toast.success("Appointment cancelled successfully");
+                sendEmail(user.email, "Appointment Cancelled", user.fullName, config.env.emailTemplates.cancelled)
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);

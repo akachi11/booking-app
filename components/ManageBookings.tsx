@@ -13,7 +13,7 @@ interface Booking {
     createdAt: Date | null;
 }
 
-interface UserProps {
+export interface UserProps {
     id: string;
     fullName: string;
     email: string;
@@ -24,8 +24,6 @@ interface UserProps {
 }
 
 export default function ManageBookings({
-    session,
-    fullUser,
     allBookings,
 }: {
     session: Session;
@@ -122,7 +120,7 @@ export default function ManageBookings({
                         <p><strong>Booked By:</strong> {selectedUser.fullName}</p>
                         <p><strong>Email:</strong> {selectedUser.email}</p>
                         <div className="mt-4 flex justify-between">
-                            <CancelAppointment bookingId={selectedBooking.id} userId={selectedUser.id} />
+                            <CancelAppointment user={selectedUser} bookingId={selectedBooking.id} userId={selectedUser.id} />
                             <Button
                                 onClick={() => setIsModalOpen(false)}
                                 className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"

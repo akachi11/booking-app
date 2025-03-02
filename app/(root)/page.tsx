@@ -42,17 +42,18 @@ export default async function Home() {
   }
 
   return (
-    // <UserBookings
-    //   session={session as Session}
-    //   fullUser={fullUser}
-    //   userBooking={userBooking}
-    //   allBookings={allBookings}
-    // />
-    <ManageBookings
-      session={session as Session}
-      fullUser={fullUser}
-      // userBooking={userBooking}
-      allBookings={allBookings}
-    />
+    fullUser?.role === "ADMIN" ?
+      <ManageBookings
+        session={session as Session}
+        fullUser={fullUser}
+        // userBooking={userBooking}
+        allBookings={allBookings}
+      /> :
+      <UserBookings
+        session={session as Session}
+        fullUser={fullUser}
+        userBooking={userBooking}
+        allBookings={allBookings}
+      />
   );
 }

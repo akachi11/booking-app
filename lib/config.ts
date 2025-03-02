@@ -6,6 +6,10 @@ const config = {
         upstash: {
             qstashUrl: process.env.QSTASH_URL!,
             qstashToken: process.env.QSTASH_TOKEN!
+        },
+        emailTemplates: {
+            confirmation: process.env.NEXT_PUBLIC_CONFIRMATION_EMAIL_TEMPLATE_ID!,
+            cancelled: process.env.NEXT_PUBLIC_CANCELLATION_EMAIL_TEMPLATE_ID!
         }
     }
 }

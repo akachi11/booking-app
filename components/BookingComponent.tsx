@@ -8,6 +8,7 @@ import { createBooking } from "@/lib/actions/booking";
 import { User } from "next-auth";
 import { toast } from "react-toastify";
 import { sendEmail } from "@/lib/workflow";
+import config from "@/lib/config";
 
 const months = [
     { name: "January", value: 0 },
@@ -80,7 +81,7 @@ const BookingComponent = ({ user, bookings }: Props) => {
 
         if (response.success) {
             toast("Booking successful", { type: "success" });
-            sendEmail(user.email!, emailContent, user.name!);
+            sendEmail(user.email!, emailContent, user.name!, config.env.emailTemplates.confirmation);
             setTimeout(() => {
                 window.location.reload();
             }, 3000);

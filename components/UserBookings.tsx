@@ -56,7 +56,7 @@ export default function UserBookings({
                             {userBooking?.timeSlot}
                         </p>
                     </div>
-                    <CancelAppointment bookingId={fullUser.bookingId} userId={fullUser.id} />
+                    <CancelAppointment user={fullUser} bookingId={fullUser.bookingId} userId={fullUser.id} />
                 </>
             ) : (
                 <>
