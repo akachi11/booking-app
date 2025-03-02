@@ -4,7 +4,7 @@ import CancelAppointment from "@/components/CancelAppointment";
 import { Button } from "@/components/ui/button";
 import BookingComponent from "./BookingComponent";
 import { Session, User } from "next-auth";
-import { sendEmail } from "@/lib/workflow";
+import { sendEmailFunc } from "@/lib/workflow";
 
 interface Booking {
     id: string;
@@ -63,7 +63,7 @@ export default function UserBookings({
                     </p>
                     <Button className="font-extrabold">Book an appointment</Button>
                     <BookingComponent bookings={allBookings} user={session?.user as User} />
-                    <Button onClick={() => { sendEmail("adikaatudemy@gmail.com", "Test", "Test") }}>Send email</Button>
+                    <Button onClick={() => { sendEmailFunc("adikaatudemy@gmail.com", "Test", "Test") }}>Send email</Button>
                 </>
             )}
         </div>

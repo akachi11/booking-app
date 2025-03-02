@@ -6,8 +6,6 @@ import { users } from "@/database/schema";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { signOut } from '@/auth';
-import { workflowClient } from "../workflow";
-import config from "../config";
 
 export const signInWithCredentials = async (
   params: Pick<AuthCredentials, "email" | "password">,
@@ -51,17 +49,17 @@ export const signUp = async(params: AuthCredentials) => {
             role
         })
 
-        try {
-          console.log("Triggering Upstash Workflow...");
-          const response = await workflowClient.trigger({
-            url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
-            body: { email, fullName }
-          });
+        // try {
+        //   console.log("Triggering Upstash Workflow...");
+        //   const response = await workflowClient.trigger({
+        //     url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
+        //     body: { email, fullName }
+        //   });
         
-          console.log("Workflow Trigger Response:", response);
-        } catch (error) {
-          console.error("Failed to trigger workflow:", error);
-        }       
+        //   console.log("Workflow Trigger Response:", response);
+        // } catch (error) {
+        //   console.error("Failed to trigger workflow:", error);
+        // }       
 
         // await signInWithCredentials({email, password});
         return {success: true};
