@@ -51,10 +51,20 @@ export const signUp = async(params: AuthCredentials) => {
             role
         })
 
-         await workflowClient.trigger({
-          url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
-          body: {email, fullName}
-         })
+        console.log("Triggering workflow at:", `${config.env.prodApiEndpoint}/api/workflows/onboarding`);
+        console.log("Payload Sent to Workflow:", { email, fullName });
+
+        try {
+          console.log("Triggering Upstash Workflow...");
+          const response = await workflowClient.trigger({
+            url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
+            body: { email, fullName }
+          });
+        
+          console.log("Workflow Trigger Response:", response);
+        } catch (error) {
+          console.error("Failed to trigger workflow:", error);
+        }       
 
         // await signInWithCredentials({email, password});
         return {success: true};
