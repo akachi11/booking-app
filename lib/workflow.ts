@@ -1,6 +1,7 @@
 import {Client as WorkflowClient} from "@upstash/workflow"
 // import {Client as QstashClient} from "@upstash/qstash"
 import config from "./config"
+import emailjs from '@emailjs/browser';
 
 export const workflowClient = new WorkflowClient({
     baseUrl: config.env.upstash.qstashUrl,
@@ -11,26 +12,19 @@ export const workflowClient = new WorkflowClient({
 //     token: config.env.upstash.qstashToken
 // })
 
-export const sendEmailFunc = async (email: string, body: string, name: string) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_PROD_API_ENDPOINT}/api/send-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, body, name }),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to send email");
-      }
-  
-      console.log("✅ SUCCESS! Email sent.");
-    } catch (error) {
-      console.error("❌ Error sending email:", error);
-      throw new Error("Email sending failed");
-    }
-  };
-  
-  
-  
+export const sendEmail = async (email: string, body: string, name: string) => {
+    emailjs.send("service_2qm6sy5", "template_klaxvff", {
+            to_email: email,
+            message: body,
+            to_name: name
+        }, 
+        {
+            publicKey: "wX6vsu-NFP10-ovQH"}).then(
+            (res) => {
+              console.log('SUCCESS!');
+            },
+            (error) => {
+              console.log('FAILED...', error);
+            }
+          );
+};

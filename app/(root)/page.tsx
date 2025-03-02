@@ -4,9 +4,25 @@ import { bookings, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import UserBookings from "@/components/UserBookings";
 import { Session } from "next-auth";
+import config from "@/lib/config";
+import { workflowClient } from "@/lib/workflow";
 
 export default async function Home() {
   const session = await auth();
+
+  const registerWorkflow = async (email: string, fullName: string) => {
+    try {
+      console.log("Triggering Upstash Workflow...");
+      const response = await workflowClient.trigger({
+        url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
+        body: { email, fullName }
+      });
+
+      console.log("Workflow Trigger Response:", response);
+    } catch (error) {
+      console.error("Failed to trigger workflow:", error);
+    }
+  }
 
   let fullUser = null;
   let userBooking = null;
@@ -15,6 +31,8 @@ export default async function Home() {
   if (session?.user?.id) {
     const [user] = await db.select().from(users).where(eq(users.id, session.user.id)).limit(1);
     fullUser = user;
+
+    registerWorkflow(fullUser?.email, fullUser?.fullName);
 
     if (user?.bookingId) {
       const [booking] = await db.select().from(bookings).where(eq(bookings.id, user.bookingId)).limit(1);
