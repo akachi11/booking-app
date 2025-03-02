@@ -24,7 +24,7 @@ export const sendEmail = async (email: string, body: string, name: string) => {
               console.log('SUCCESS!');
             },
             (error) => {
-              console.log('FAILED...', error.text);
+              console.log('FAILED...', error);
             }
           );
 };
