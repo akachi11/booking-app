@@ -35,16 +35,13 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
         defaultValues: defaultValues as DefaultValues<T>,
     })
 
-    // 2. Define a submit handler.
     const handleSubmit: SubmitHandler<T> = async (data) => {
         const result = await onSubmit(data);
         if (result.success) {
-            // Redirect to the dashboard
             toast(isSignIn ? "Sign in successful" : "Sign up successful", { type: "success" })
 
-            // router.push("/")
+            router.push("/")
         } else {
-            // Show an error message
             toast(isSignIn ? "Error signing in" : "Error signing up", { type: "error" })
         }
     }

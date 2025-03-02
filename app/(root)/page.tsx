@@ -6,6 +6,7 @@ import UserBookings from "@/components/UserBookings";
 import { Session } from "next-auth";
 import config from "@/lib/config";
 import { workflowClient } from "@/lib/workflow";
+import ManageBookings from "@/components/ManageBookings";
 
 export default async function Home() {
   const session = await auth();
@@ -41,10 +42,16 @@ export default async function Home() {
   }
 
   return (
-    <UserBookings
+    // <UserBookings
+    //   session={session as Session}
+    //   fullUser={fullUser}
+    //   userBooking={userBooking}
+    //   allBookings={allBookings}
+    // />
+    <ManageBookings
       session={session as Session}
       fullUser={fullUser}
-      userBooking={userBooking}
+      // userBooking={userBooking}
       allBookings={allBookings}
     />
   );

@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { createBooking } from "@/lib/actions/booking";
 import { User } from "next-auth";
 import { toast } from "react-toastify";
+import { sendEmail } from "@/lib/workflow";
 
 const months = [
     { name: "January", value: 0 },
@@ -53,6 +54,7 @@ const BookingComponent = ({ user, bookings }: Props) => {
     const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+    const [booked, setBooked] = useState<boolean>(false);
 
     const calendarRef = useRef<HTMLDivElement>(null);
     const timeSlotRef = useRef<HTMLDivElement>(null);
@@ -64,35 +66,42 @@ const BookingComponent = ({ user, bookings }: Props) => {
         }
     };
 
+    const formatDate = (date: Date) => {
+        const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    };
+
     const bookAppointment = async () => {
+        setBooked(true);
         const response = await createBooking({ date: selectedDate!, timeSlot: selectedTimeSlot!, userId: user.id! });
+
+        const formattedDate = formatDate(selectedDate!);
+        const emailContent = `${formattedDate} at ${selectedTimeSlot}`;
 
         if (response.success) {
             toast("Booking successful", { type: "success" });
+            sendEmail(user.email!, emailContent, user.name!);
             setTimeout(() => {
                 window.location.reload();
             }, 3000);
         } else {
             toast("Booking failed", { type: "error" });
+            setBooked(false);
         }
     }
 
     const isTimeSlotBooked = (date: Date, timeSlot: string) => {
-        const selectedDateStr = date.toDateString(); // Convert selected date to string (ignores time)
-        console.log("Selected Date (toDateString):", selectedDateStr);
+        const selectedDateStr = date.toDateString();
 
         const match = bookings.some((booking) => {
             const bookingDateStr = new Date(booking.date).toDateString(); // Convert booking date to string
-            console.log(`Booking Date (toDateString): ${bookingDateStr}, TimeSlot: ${booking.timeSlot}`);
 
             // Compare the date and timeSlot
             const isMatch = bookingDateStr === selectedDateStr && booking.timeSlot === timeSlot;
-            console.log(`Comparing: ${selectedDateStr} === ${bookingDateStr} && ${timeSlot} === ${booking.timeSlot} -> ${isMatch}`);
 
             return isMatch;
         });
 
-        console.log(`Is time slot ${timeSlot} booked on ${selectedDateStr}:`, match ? "Yes" : "No");
         return match;
     };
 
@@ -146,7 +155,7 @@ const BookingComponent = ({ user, bookings }: Props) => {
                                         date.getFullYear() === today.getFullYear() &&
                                         date.getMonth() === today.getMonth() &&
                                         date.getDate() === today.getDate()
-                                    );
+                                    ) || date.getMonth() !== selectedMonth; // Disable dates not in the selected month
                                 }}
                             />
                         </div>
@@ -195,7 +204,7 @@ const BookingComponent = ({ user, bookings }: Props) => {
 
             {selectedTimeSlot && selectedMonth && selectedDate &&
                 <div className="mt-4 text-center">
-                    <Button className="p-2" onClick={bookAppointment}>
+                    <Button disabled={booked} className="p-2" onClick={bookAppointment}>
                         Confirm Booking
                     </Button>
                 </div>

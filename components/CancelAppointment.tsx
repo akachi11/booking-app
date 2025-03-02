@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { cancelBooking } from "@/lib/actions/booking";
 import { toast, ToastContainer } from 'react-toastify';
@@ -12,7 +12,11 @@ interface CancelAppointmentProps {
 }
 
 const CancelAppointment: React.FC<CancelAppointmentProps> = ({ bookingId, userId }) => {
+
+    const [cancelled, setCancelled] = useState<boolean>(false);
+
     const handleCancel = async () => {
+        setCancelled(true);
         try {
             const result = await cancelBooking(bookingId, userId);
             if (result.success) {
@@ -26,12 +30,13 @@ const CancelAppointment: React.FC<CancelAppointmentProps> = ({ bookingId, userId
         } catch (error) {
             console.log(error)
             toast.error("An error occurred while cancelling the appointment");
+            setCancelled(false);
         }
     };
 
     return (
         <>
-            <Button className="block mt-4" onClick={handleCancel}>
+            <Button disabled={cancelled} className="block mt-4" onClick={handleCancel}>
                 Cancel appointment
             </Button>
             <ToastContainer />

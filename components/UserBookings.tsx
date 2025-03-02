@@ -4,7 +4,7 @@ import CancelAppointment from "@/components/CancelAppointment";
 import { Button } from "@/components/ui/button";
 import BookingComponent from "./BookingComponent";
 import { Session, User } from "next-auth";
-import { sendEmail } from "@/lib/workflow";
+import { useState } from "react";
 
 interface Booking {
     id: string;
@@ -37,6 +37,8 @@ export default function UserBookings({
     allBookings: Booking[];
 }) {
 
+    const [booking, setBooking] = useState<boolean>(false)
+
     return (
         <div className="">
             {fullUser?.bookingId ? (
@@ -61,9 +63,10 @@ export default function UserBookings({
                     <p className="font-ibm-plex-sans text-white font-black text-[40px]">
                         You currently have no appointment
                     </p>
-                    <Button className="font-extrabold">Book an appointment</Button>
-                    <BookingComponent bookings={allBookings} user={session?.user as User} />
-                    <Button onClick={() => { sendEmail("adikaatudemy@gmail.com", "Test", "Test") }}>Send email</Button>
+                    <Button disabled={booking} onClick={() => { setBooking(true) }} className="font-extrabold">Book an appointment</Button>
+                    {booking && (
+                        <BookingComponent bookings={allBookings} user={session?.user as User} />
+                    )}
                 </>
             )}
         </div>
