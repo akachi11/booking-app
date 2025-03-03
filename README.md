@@ -96,6 +96,15 @@ I’m excited about the opportunity to contribute and bring **the same level of 
 
 ## Video Demo
 
-https://drive.google.com/file/d/1_cV0AqKjPzctvr92f2BRovIGPhxg_0na/view?usp=sharing
+https://drive.google.com/file/d/1foeeka5QSexeso5R_6NCseE1Cg4jOdQq/view?usp=sharing
+
+## Live App
+
+https://booking-app-five-jet.vercel.app/
+
+## Admin Login
+
+Email: ogogorchimadika6@gmail.com
+Password: akachukwu
 
 **Made with ❤️ by [Akachukwu]**  
