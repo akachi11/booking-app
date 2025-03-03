@@ -50,7 +50,7 @@ While I didn’t implement this feature, the architecture is **flexible enough**
 
 1. Clone the repo:  
     ```bash
-    git clone https://github.com/yourusername/booking-app.git
+    git clone https://github.com/akachi11/booking-app.git
     cd booking-app
     ```  
 
@@ -94,4 +94,4 @@ I’m excited about the opportunity to contribute and bring **the same level of 
 
 ---
 
-**Made with ❤️ by [Your Name]**  
+**Made with ❤️ by [Akachukwu]**  
