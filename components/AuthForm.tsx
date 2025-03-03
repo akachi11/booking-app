@@ -54,10 +54,10 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
     return (
         <div className="flex flex-col gap-4">
             <h1 className="text-2xl font-semibold text-white">
-                {isSignIn ? "Welcome back to TBR" : "Create your library ccount"}
+                {isSignIn ? "Welcome back to BookingApp" : "Create your booking account"}
             </h1>
             <p className="text-light-100">
-                {isSignIn ? "Access the vast collection of resources and stay updated" : "Please complete all fields and upload a valid university ID to gain access to the library"}
+                {isSignIn ? "Login to book an appointment at your convenience" : "Please input your information to gain access to the booking system"}
             </p>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 w-full">
@@ -75,7 +75,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        This is your public display name.
+                                        This is your public email.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

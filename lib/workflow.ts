@@ -13,6 +13,7 @@ export const workflowClient = new WorkflowClient({
 // })
 
 export const sendEmail = async (email: string, body: string, name: string, template: string) => {
+    console.log(email)
     emailjs.send("service_2qm6sy5", template, {
             to_email: email,
             message: body,
