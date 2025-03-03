@@ -20,7 +20,7 @@ This approach **enhances performance, reduces complexity, and streamlines deploy
 
 ## 📌 Features & Implementation  
 
-- **Appointment Booking & Management** – Users can easily book and cancel appointments.  
+- **Appointment Booking & Management** – Users can easily book and cancel appointments. No two users can book the same time period in a day and this is made possible by disabling already taken time slots while booking an appointment.  
 - **Confirmation & Cancellation Emails** – Automatic email notifications upon booking and cancellation.  
 - **Modern, Scalable Architecture** – Designed for efficiency, maintainability, and real-world production use.  
 
