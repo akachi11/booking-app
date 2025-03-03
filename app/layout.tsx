@@ -24,9 +24,9 @@ const bebasNeue = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "BookWise",
+  title: "Bookin App",
   description:
-    "BookWise is a book borrowing university library management solution.",
+    "BookApp is an appointment booking app that allows users to book appointments with professionals",
 };
 
 export default async function RootLayout({

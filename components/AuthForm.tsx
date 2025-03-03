@@ -18,6 +18,7 @@ import Link from "next/link"
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 interface Props<T extends FieldValues> {
     schema: ZodType<T>;
@@ -30,12 +31,15 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
     const router = useRouter()
     const isSignIn = type === "SIGN_IN"
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const form: UseFormReturn<T> = useForm({
         resolver: zodResolver(schema),
         defaultValues: defaultValues as DefaultValues<T>,
     })
 
     const handleSubmit: SubmitHandler<T> = async (data) => {
+        setLoading(true);
         const result = await onSubmit(data);
         if (result.success) {
             toast(isSignIn ? "Sign in successful" : "Sign up successful", { type: "success" })
@@ -43,6 +47,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
             router.push("/")
         } else {
             toast(isSignIn ? "Error signing in" : "Error signing up", { type: "error" })
+            setLoading(false);
         }
     }
 
@@ -78,7 +83,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                         />
                     ))}
 
-                    <Button type="submit">Submit</Button>
+                    <Button disabled={loading} type="submit">Submit</Button>
                 </form>
             </Form>
 
